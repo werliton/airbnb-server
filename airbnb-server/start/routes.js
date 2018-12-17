@@ -31,3 +31,5 @@ Route.resource('properties', 'PropertyController')
 
 Route.post('properties/:id/images', 'ImageController.store')
   .middleware('auth')
+
+Route.get('images/:path', 'ImageController.show')
