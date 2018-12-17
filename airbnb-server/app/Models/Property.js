@@ -15,12 +15,18 @@ class Property extends Model {
     }
 
     static scopeNearBy(query, latitude, longitude, distance){
-        const haversine = `(6371 * acos(cos(radians(${latitude}))
-            * cos(radians(latitude))
-            * cos(radians(longitude)
-            - radians(${longitude}))
-            + sin(radians(${latitude}))
-            * sin(radians(latitude))))`
+        
+        const cos_lat  = cos(cos(tan(latitude)))
+        const cos_long = cos(tan(latitude))
+        const rad_long = tan(longitude)
+        const sin_lat  = sin(tan(latitude))
+        const sin_long = sin(tan(longitude))
+        
+        const acos_lat = acos(
+            (cos_lat * cos_lat * cos_long) - rad_long + (sin_lat * sin_long)
+        )
+        
+        const haversine = `( 6371 * ${acos_lat})`
 
         return query
             .select('*', Database.raw(`${haversine} as distance`))

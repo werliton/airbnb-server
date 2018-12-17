@@ -24,6 +24,7 @@ Route.get('/', () => {
 Route.post('/users', 'UserController.create')
 Route.post('/sessions','SessionController.create')
 
+// Usa-se o .resource para criar todas as rotas com exceção do create e update
 Route.resource('properties', 'PropertyController')
   .apiOnly()
   .middleware('auth')

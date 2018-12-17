@@ -23,7 +23,7 @@ class PropertyController {
     const { latitude, longitude } = request.all()
 
     const properties = Property.query()
-      .nearBy(latitude, longitude, 10)
+      .nearBy(-49.644018, -27.210768, 10)
       .fetch()
 
     return properties
@@ -37,7 +37,18 @@ class PropertyController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
+  async store ({ auth, request, response }) {
+    const {id} = auth.user
+    const data = request.only([
+      'title',
+      'address',
+      'latitude',
+      'longitude',
+      'price'
+    ])
+
+    const property = await Property.create({...data, user_id: id})
+     return property
   }
 
   /**
