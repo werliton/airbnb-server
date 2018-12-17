@@ -13,6 +13,14 @@ class ImageController {
             types: ['image'],
             size: '2mb'
         })
+
+        await images.moveAll(Helpers.tmpPath('uploads'), file => ({
+            name: `${Data.now()}-${file.clientName}`
+        }))
+
+        if(!images.moveAll()){
+            return images.errors()
+        }
     }
 }
 
